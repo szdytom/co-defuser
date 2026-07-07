@@ -147,3 +147,86 @@
   min-width: 28px;
   text-align: right;
 }
+
+.config-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.config-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.config-number {
+  width: 64px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.config-number:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.time-options {
+  display: flex;
+  gap: 4px;
+}
+
+.time-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.time-btn:hover {
+  border-color: var(--color-info);
+}
+
+.time-btn.active {
+  background: var(--color-info);
+  border-color: var(--color-info);
+  color: var(--text-on-accent);
+}
+
+.config-modules {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.module-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.module-check-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.module-check-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-info);
+  cursor: pointer;
+}

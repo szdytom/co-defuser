@@ -1,10 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { GameRole } from '../game/types';
 import type { GameConfig } from '../game/config';
-import { DEFAULT_CONFIG } from '../game/config';
+import { DEFAULT_CONFIG, TIME_OPTIONS, ALL_MODULE_IDS } from '../game/config';
 import { ThemeToggle } from '../components/ThemeToggle';
 import './StartScreen.css';
+
+const CONFIG_KEY = 'co-defuser-config';
+
+function loadConfig(): GameConfig {
+  try {
+    const raw = localStorage.getItem(CONFIG_KEY);
+    if (!raw) return { ...DEFAULT_CONFIG };
+    const parsed = JSON.parse(raw);
+    return {
+      timerSeconds: TIME_OPTIONS.some(o => o.seconds === parsed.timerSeconds) ? parsed.timerSeconds : DEFAULT_CONFIG.timerSeconds,
+      maxMistakes: Math.min(10, Math.max(1, parsed.maxMistakes ?? DEFAULT_CONFIG.maxMistakes)),
+      moduleCount: Math.min(8, Math.max(1, parsed.moduleCount ?? DEFAULT_CONFIG.moduleCount)),
+      enabledModules: Array.isArray(parsed.enabledModules)
+        ? parsed.enabledModules.filter((id: string) => ALL_MODULE_IDS.includes(id))
+        : [...DEFAULT_CONFIG.enabledModules],
+    };
+  } catch {
+    return { ...DEFAULT_CONFIG };
+  }
+}
+
+function saveConfig(config: GameConfig): void {
+  localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+}
+
+const MODULE_NAMES: Record<string, string> = {
+  wire: '剪线',
+  'keyboard-svg': '键盘(符号)',
+  'keyboard-dot': '键盘(点阵)',
+  memory: '记忆',
+  timer: '计时',
+  'matching-svg': '配对(符号)',
+  'matching-dot': '配对(点阵)',
+};
 
 function generateRandomSeed(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -19,10 +53,8 @@ function configToSearch(config: GameConfig): string {
   const params = new URLSearchParams();
   if (config.timerSeconds !== DEFAULT_CONFIG.timerSeconds) params.set('t', String(config.timerSeconds));
   if (config.maxMistakes !== DEFAULT_CONFIG.maxMistakes) params.set('m', String(config.maxMistakes));
-  if (config.wireModuleCount !== DEFAULT_CONFIG.wireModuleCount) params.set('w', String(config.wireModuleCount));
-  if (config.keyboardSVGCount !== DEFAULT_CONFIG.keyboardSVGCount) params.set('ks', String(config.keyboardSVGCount));
-  if (config.keyboardDotCount !== DEFAULT_CONFIG.keyboardDotCount) params.set('kd', String(config.keyboardDotCount));
-  if (config.memoryModuleCount !== DEFAULT_CONFIG.memoryModuleCount) params.set('mem', String(config.memoryModuleCount));
+  if (config.moduleCount !== DEFAULT_CONFIG.moduleCount) params.set('mc', String(config.moduleCount));
+  if (config.enabledModules.join() !== DEFAULT_CONFIG.enabledModules.join()) params.set('em', config.enabledModules.join(','));
   const s = params.toString();
   return s ? `?${s}` : '';
 }
@@ -41,17 +73,23 @@ function usePersistedSeed(): [string, (s: string) => void] {
   return [seed, saveSeed];
 }
 
+function toggleModule(enabled: string[], id: string): string[] {
+  if (enabled.includes(id)) {
+    if (enabled.length <= 1) return enabled;
+    return enabled.filter(m => m !== id);
+  }
+  return [...enabled, id];
+}
+
 export const StartScreen: React.FC = () => {
   const navigate = useNavigate();
   const [seed, setSeed] = usePersistedSeed();
   const [showConfig, setShowConfig] = useState(false);
-  const [config, setConfig] = useState<GameConfig>({ ...DEFAULT_CONFIG });
+  const [config, setConfig] = useState<GameConfig>(loadConfig);
+
+  useEffect(() => { saveConfig(config); }, [config]);
 
   const handleRandomSeed = () => setSeed(generateRandomSeed());
-
-  const updateConfig = (key: keyof GameConfig, value: number) => {
-    setConfig(prev => ({ ...prev, [key]: value }));
-  };
 
   const handleStart = (role: GameRole) => {
     sessionStorage.setItem('seed', seed);
@@ -100,91 +138,72 @@ export const StartScreen: React.FC = () => {
 
       {showConfig && (
         <div className="config-panel">
-          <label>
-            总时间 (秒)
-            <span>
-              <input
-                type="range"
-                min="60"
-                max="600"
-                step="30"
-                value={config.timerSeconds}
-                onChange={e => updateConfig('timerSeconds', Number(e.target.value))}
-              />
-              <span className="config-value">{config.timerSeconds}</span>
-            </span>
-          </label>
-          <label>
-            最大失误次数
-            <span>
-              <input
-                type="range"
-                min="1"
-                max="10"
-                step="1"
-                value={config.maxMistakes}
-                onChange={e => updateConfig('maxMistakes', Number(e.target.value))}
-              />
-              <span className="config-value">{config.maxMistakes}</span>
-            </span>
-          </label>
-          <label>
-            剪线模块数
-            <span>
-              <input
-                type="range"
-                min="0"
-                max="3"
-                step="1"
-                value={config.wireModuleCount}
-                onChange={e => updateConfig('wireModuleCount', Number(e.target.value))}
-              />
-              <span className="config-value">{config.wireModuleCount}</span>
-            </span>
-          </label>
-          <label>
-            键盘 (符号) 模块数
-            <span>
-              <input
-                type="range"
-                min="0"
-                max="3"
-                step="1"
-                value={config.keyboardSVGCount}
-                onChange={e => updateConfig('keyboardSVGCount', Number(e.target.value))}
-              />
-              <span className="config-value">{config.keyboardSVGCount}</span>
-            </span>
-          </label>
-          <label>
-          键盘 (点阵) 模块数
-             <span>
-               <input
-                 type="range"
-                 min="0"
-                 max="3"
-                 step="1"
-                 value={config.keyboardDotCount}
-                 onChange={e => updateConfig('keyboardDotCount', Number(e.target.value))}
-               />
-               <span className="config-value">{config.keyboardDotCount}</span>
-             </span>
-           </label>
-           <label>
-             记忆模块数
-             <span>
-               <input
-                 type="range"
-                 min="0"
-                 max="3"
-                 step="1"
-                 value={config.memoryModuleCount}
-                 onChange={e => updateConfig('memoryModuleCount', Number(e.target.value))}
-               />
-               <span className="config-value">{config.memoryModuleCount}</span>
-             </span>
-           </label>
-         </div>
+          <div className="config-field">
+            <span className="config-label">总时间</span>
+            <div className="time-options">
+              {TIME_OPTIONS.map(opt => (
+                <button
+                  key={opt.seconds}
+                  className={`time-btn ${config.timerSeconds === opt.seconds ? 'active' : ''}`}
+                  onClick={() => setConfig(prev => ({ ...prev, timerSeconds: opt.seconds }))}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="config-field">
+            <span className="config-label">最大失误</span>
+            <input
+              type="number"
+              className="config-number"
+              min={1}
+              max={10}
+              step={1}
+              value={config.maxMistakes}
+              onChange={e => {
+                const v = Math.min(10, Math.max(1, parseInt(e.target.value) || 1));
+                setConfig(prev => ({ ...prev, maxMistakes: v }));
+              }}
+            />
+          </div>
+
+          <div className="config-field">
+            <span className="config-label">模块总数</span>
+            <input
+              type="number"
+              className="config-number"
+              min={1}
+              max={8}
+              step={1}
+              value={config.moduleCount}
+              onChange={e => {
+                const v = Math.min(8, Math.max(1, parseInt(e.target.value) || 1));
+                setConfig(prev => ({ ...prev, moduleCount: v }));
+              }}
+            />
+          </div>
+
+          <div className="config-field config-modules">
+            <span className="config-label">模块类型</span>
+            <div className="module-checkboxes">
+              {ALL_MODULE_IDS.map(id => (
+                <label key={id} className="module-check-label">
+                  <input
+                    type="checkbox"
+                    checked={config.enabledModules.includes(id)}
+                    onChange={() => setConfig(prev => ({
+                      ...prev,
+                      enabledModules: toggleModule(prev.enabledModules, id),
+                    }))}
+                  />
+                  {MODULE_NAMES[id]}
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
-import type { GameState, GameRole } from '../game/types';
+import type { GameState, GameRole, ManualData } from '../game/types';
 import type { GameConfig } from '../game/config';
 import { DEFAULT_CONFIG } from '../game/config';
-import { generateGame } from '../game/generator';
+import { generateGame, generateManual } from '../game/generator';
 import { OperatorView } from './OperatorView';
 import { ExpertView } from './ExpertView';
 
@@ -19,13 +19,12 @@ function parseConfigFromSearch(): GameConfig {
     const v = params.get(key);
     return v !== null ? Number(v) : null;
   };
+  const rawEnabled = params.get('em');
   return {
     timerSeconds: n('t') ?? DEFAULT_CONFIG.timerSeconds,
     maxMistakes: n('m') ?? DEFAULT_CONFIG.maxMistakes,
-    wireModuleCount: n('w') ?? DEFAULT_CONFIG.wireModuleCount,
-    keyboardSVGCount: n('ks') ?? DEFAULT_CONFIG.keyboardSVGCount,
-    keyboardDotCount: n('kd') ?? DEFAULT_CONFIG.keyboardDotCount,
-    memoryModuleCount: n('mem') ?? DEFAULT_CONFIG.memoryModuleCount,
+    moduleCount: n('mc') ?? DEFAULT_CONFIG.moduleCount,
+    enabledModules: rawEnabled ? rawEnabled.split(',') : [...DEFAULT_CONFIG.enabledModules],
   };
 }
 
@@ -38,11 +37,17 @@ export const GameSession: React.FC<GameSessionProps> = ({ role }) => {
     if (seed) sessionStorage.setItem('seed', seed);
   }, [seed]);
 
-  const [gameState, setGameState] = useState<GameState>(() => {
+  const [gameState, setGameState] = useState<GameState | null>(() => {
+    if (role !== 'operator') return null;
     const state = generateGame(seed || 'DEFAULT', config);
     state.role = role;
     return state;
   });
+
+  const manualData = useMemo<ManualData | null>(() => {
+    if (role !== 'expert') return null;
+    return generateManual(seed || 'DEFAULT');
+  }, [seed]);
 
   if (!seed) {
     return <Navigate to="/" replace />;
@@ -102,7 +107,8 @@ export const GameSession: React.FC<GameSessionProps> = ({ role }) => {
     navigate('/');
   }, [navigate]);
 
-  if (gameState.role === 'operator') {
+  if (role === 'operator') {
+    if (!gameState) return null;
     return (
       <OperatorView
         gameState={gameState}
@@ -113,9 +119,11 @@ export const GameSession: React.FC<GameSessionProps> = ({ role }) => {
     );
   }
 
+  if (!manualData) return null;
+
   return (
     <ExpertView
-      gameState={gameState}
+      manualData={manualData}
       onBack={handleBack}
     />
   );

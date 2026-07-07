@@ -10,7 +10,7 @@ export function randomPattern(rng: { next(): number }): DotPattern {
   return pattern;
 }
 
-function patternKey(p: DotPattern): string {
+export function patternKey(p: DotPattern): string {
   return p.join('');
 }
 

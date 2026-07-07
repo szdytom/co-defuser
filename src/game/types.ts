@@ -13,6 +13,16 @@ export interface PuzzleInstance<P = unknown, R = unknown> {
   index: number;
 }
 
+export interface ManualEntry {
+  moduleType: IModuleType<any, any>;
+  rule: unknown;
+}
+
+export interface ManualData {
+  seed: string;
+  entries: ManualEntry[];
+}
+
 export interface GameState {
   phase: GamePhase;
   role: GameRole;

@@ -3,12 +3,18 @@ import { wireModule } from './wire';
 import { keyboardSVGModule } from './keyboard-svg';
 import { keyboardDotModule } from './keyboard-dot';
 import { memoryModule } from './memory';
+import { timerModule } from './timer';
+import { matchingSVGModule } from './matching-svg';
+import { matchingDotModule } from './matching-dot';
 
 export const MODULE_REGISTRY: Record<string, IModuleType<any, any>> = {
   wire: wireModule,
   'keyboard-svg': keyboardSVGModule,
   'keyboard-dot': keyboardDotModule,
   memory: memoryModule,
+  timer: timerModule,
+  'matching-svg': matchingSVGModule,
+  'matching-dot': matchingDotModule,
 };
 
 export function getModule(id: string): IModuleType<any, any> | undefined {

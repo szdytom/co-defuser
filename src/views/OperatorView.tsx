@@ -120,6 +120,8 @@ export const OperatorView: React.FC<OperatorViewProps> = ({
                     pressedActions: inst.pressedActions,
                     disabled: inst.solved,
                     lastActionWrong: gameState.lastWrongIdx === idx,
+                    timeRemaining: gameState.timeRemaining,
+                    otherModulesSolved: puzzles.filter((_, i) => i !== idx).every(p => p.solved),
                   })}
                 </div>
               )}

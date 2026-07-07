@@ -17,6 +17,8 @@ export interface IModuleType<TRule, TPuzzle> {
     pressedActions: OperatorAction[];
     disabled: boolean;
     lastActionWrong: boolean;
+    timeRemaining?: number;
+    otherModulesSolved?: boolean;
   }) => ReactNode;
   expertComponent: (props: { rule: TRule }) => ReactNode;
 }
