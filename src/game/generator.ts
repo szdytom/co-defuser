@@ -14,6 +14,7 @@ export function generateGame(seed: string, config: GameConfig = DEFAULT_CONFIG):
     { id: 'wire', count: config.wireModuleCount },
     { id: 'keyboard-svg', count: config.keyboardSVGCount },
     { id: 'keyboard-dot', count: config.keyboardDotCount },
+    { id: 'memory', count: config.memoryModuleCount },
   ];
 
   let moduleIdx = 0;

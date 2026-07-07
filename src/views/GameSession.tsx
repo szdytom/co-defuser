@@ -25,6 +25,7 @@ function parseConfigFromSearch(): GameConfig {
     wireModuleCount: n('w') ?? DEFAULT_CONFIG.wireModuleCount,
     keyboardSVGCount: n('ks') ?? DEFAULT_CONFIG.keyboardSVGCount,
     keyboardDotCount: n('kd') ?? DEFAULT_CONFIG.keyboardDotCount,
+    memoryModuleCount: n('mem') ?? DEFAULT_CONFIG.memoryModuleCount,
   };
 }
 
@@ -32,6 +33,10 @@ export const GameSession: React.FC<GameSessionProps> = ({ role }) => {
   const { seed } = useParams<{ seed: string }>();
   const navigate = useNavigate();
   const config = useMemo(() => parseConfigFromSearch(), []);
+
+  React.useEffect(() => {
+    if (seed) sessionStorage.setItem('seed', seed);
+  }, [seed]);
 
   const [gameState, setGameState] = useState<GameState>(() => {
     const state = generateGame(seed || 'DEFAULT', config);

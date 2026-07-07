@@ -4,6 +4,7 @@ export interface GameConfig {
   wireModuleCount: number;
   keyboardSVGCount: number;
   keyboardDotCount: number;
+  memoryModuleCount: number;
 }
 
 export const DEFAULT_CONFIG: GameConfig = {
@@ -12,4 +13,5 @@ export const DEFAULT_CONFIG: GameConfig = {
   wireModuleCount: 1,
   keyboardSVGCount: 1,
   keyboardDotCount: 1,
+  memoryModuleCount: 1,
 };

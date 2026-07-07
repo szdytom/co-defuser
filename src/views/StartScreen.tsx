@@ -22,13 +22,28 @@ function configToSearch(config: GameConfig): string {
   if (config.wireModuleCount !== DEFAULT_CONFIG.wireModuleCount) params.set('w', String(config.wireModuleCount));
   if (config.keyboardSVGCount !== DEFAULT_CONFIG.keyboardSVGCount) params.set('ks', String(config.keyboardSVGCount));
   if (config.keyboardDotCount !== DEFAULT_CONFIG.keyboardDotCount) params.set('kd', String(config.keyboardDotCount));
+  if (config.memoryModuleCount !== DEFAULT_CONFIG.memoryModuleCount) params.set('mem', String(config.memoryModuleCount));
   const s = params.toString();
   return s ? `?${s}` : '';
 }
 
+function usePersistedSeed(): [string, (s: string) => void] {
+  const [seed, setSeed] = useState(() => {
+    const saved = sessionStorage.getItem('seed');
+    return saved ?? generateRandomSeed();
+  });
+
+  const saveSeed = (s: string) => {
+    sessionStorage.setItem('seed', s);
+    setSeed(s);
+  };
+
+  return [seed, saveSeed];
+}
+
 export const StartScreen: React.FC = () => {
   const navigate = useNavigate();
-  const [seed, setSeed] = useState(() => generateRandomSeed());
+  const [seed, setSeed] = usePersistedSeed();
   const [showConfig, setShowConfig] = useState(false);
   const [config, setConfig] = useState<GameConfig>({ ...DEFAULT_CONFIG });
 
@@ -39,6 +54,7 @@ export const StartScreen: React.FC = () => {
   };
 
   const handleStart = (role: GameRole) => {
+    sessionStorage.setItem('seed', seed);
     const search = configToSearch(config);
     const path = role === 'operator' ? '/operator' : '/manual';
     navigate(`${path}/${encodeURIComponent(seed)}${search}`);
@@ -141,20 +157,34 @@ export const StartScreen: React.FC = () => {
             </span>
           </label>
           <label>
-            键盘 (点阵) 模块数
-            <span>
-              <input
-                type="range"
-                min="0"
-                max="3"
-                step="1"
-                value={config.keyboardDotCount}
-                onChange={e => updateConfig('keyboardDotCount', Number(e.target.value))}
-              />
-              <span className="config-value">{config.keyboardDotCount}</span>
-            </span>
-          </label>
-        </div>
+          键盘 (点阵) 模块数
+             <span>
+               <input
+                 type="range"
+                 min="0"
+                 max="3"
+                 step="1"
+                 value={config.keyboardDotCount}
+                 onChange={e => updateConfig('keyboardDotCount', Number(e.target.value))}
+               />
+               <span className="config-value">{config.keyboardDotCount}</span>
+             </span>
+           </label>
+           <label>
+             记忆模块数
+             <span>
+               <input
+                 type="range"
+                 min="0"
+                 max="3"
+                 step="1"
+                 value={config.memoryModuleCount}
+                 onChange={e => updateConfig('memoryModuleCount', Number(e.target.value))}
+               />
+               <span className="config-value">{config.memoryModuleCount}</span>
+             </span>
+           </label>
+         </div>
       )}
     </div>
   );
