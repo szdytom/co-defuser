@@ -1,0 +1,17 @@
+.mistake-counter {
+  display: flex;
+  gap: 6px;
+}
+
+.mistake-counter .mistake-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--border-color);
+  border: 2px solid var(--border-color-light);
+}
+
+.mistake-counter .mistake-dot.spent {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}

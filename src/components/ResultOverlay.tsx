@@ -1,4 +1,5 @@
 import React from 'react';
+import './ResultOverlay.css';
 
 interface ResultOverlayProps {
   win: boolean;

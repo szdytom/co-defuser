@@ -1,6 +1,7 @@
 import React from 'react';
 import type { KeyboardSVGRule, KeyboardSVGPuzzle } from './types';
 import { RenderSymbol } from './svg-utils';
+import '../../styles/keyboard-module.css';
 
 export const KbSvgOperator: React.FC<{
   puzzle: KeyboardSVGPuzzle;

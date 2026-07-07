@@ -1,4 +1,5 @@
 import React from 'react';
+import './MistakeCounter.css';
 
 interface MistakeCounterProps {
   mistakes: number;

@@ -1,5 +1,7 @@
 import React from 'react';
 import type { GameState } from '../game/types';
+import { ThemeToggle } from '../components/ThemeToggle';
+import './ExpertView.css';
 
 interface ExpertViewProps {
   gameState: GameState;
@@ -13,6 +15,7 @@ export const ExpertView: React.FC<ExpertViewProps> = ({ gameState, onBack }) => 
     <div className="expert-view content-wrapper">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <button className="back-btn" onClick={onBack}>返回</button>
+        <ThemeToggle />
       </div>
       <div className="manual-header">
         <h2>操作手册</h2>

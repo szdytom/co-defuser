@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import type { GameRole } from '../game/types';
 import type { GameConfig } from '../game/config';
 import { DEFAULT_CONFIG } from '../game/config';
+import { ThemeToggle } from '../components/ThemeToggle';
+import './StartScreen.css';
 
 function generateRandomSeed(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -44,6 +46,9 @@ export const StartScreen: React.FC = () => {
 
   return (
     <div className="content-wrapper start-screen">
+      <div style={{ alignSelf: 'flex-end' }}>
+        <ThemeToggle />
+      </div>
       <h1>CO-DEFUSER</h1>
 
       <div className="seed-input-group">

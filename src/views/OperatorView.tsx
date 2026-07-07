@@ -3,6 +3,8 @@ import type { GameState } from '../game/types';
 import { Timer } from '../components/Timer';
 import { MistakeCounter } from '../components/MistakeCounter';
 import { ResultOverlay } from '../components/ResultOverlay';
+import { ThemeToggle } from '../components/ThemeToggle';
+import './OperatorView.css';
 
 interface OperatorViewProps {
   gameState: GameState;
@@ -80,7 +82,10 @@ export const OperatorView: React.FC<OperatorViewProps> = ({
       <div className="header">
         <button className="back-btn" onClick={onBack}>返回</button>
         <Timer timeRemaining={timeRemaining} total={timerSeconds} />
-        <MistakeCounter mistakes={mistakes} maxMistakes={maxMistakes} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <MistakeCounter mistakes={mistakes} maxMistakes={maxMistakes} />
+          <ThemeToggle />
+        </div>
       </div>
       <div className="modules-container">
         {puzzles.map((inst, idx) => {

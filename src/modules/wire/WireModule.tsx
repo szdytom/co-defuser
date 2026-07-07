@@ -1,5 +1,6 @@
 import React from 'react';
 import type { WirePuzzle, WireRule, DecisionTree, LeafAction } from './types';
+import './WireModule.css';
 
 function actionDesc(action: LeafAction): string {
   switch (action.kind) {
@@ -32,20 +33,19 @@ function RenderTree({ tree, cont }: { tree: DecisionTree; cont: string }) {
   if (tree.kind === 'leaf') {
     return (
       <div className="tree-line">
-        {cont ? <><span className="cond">{cont}</span>，</> : null}
+        {cont ? <>{cont}，</> : null}
         <RenderAction action={tree.action} />。
       </div>
     );
   }
 
   const condPrefix = cont ? `${cont}，如果` : '如果';
-  const condText = `${condPrefix}${tree.condition.desc}`;
 
   if (tree.trueBranch.kind === 'leaf') {
     return (
       <>
         <div className="tree-line">
-          <span className="cond">{condText}</span>，则<RenderAction action={tree.trueBranch.action} />。
+          {condPrefix}<span className="cond">{tree.condition.desc}</span>，则<RenderAction action={tree.trueBranch.action} />。
         </div>
         <RenderTree tree={tree.falseBranch} cont="否则" />
       </>
@@ -55,13 +55,13 @@ function RenderTree({ tree, cont }: { tree: DecisionTree; cont: string }) {
   return (
     <>
       <div className="tree-line">
-        <span className="cond">{condText}</span>，则：
+        {condPrefix}<span className="cond">{tree.condition.desc}</span>，则：
       </div>
       <div className="tree-indent">
         <RenderTree tree={tree.trueBranch} cont="" />
       </div>
       <div className="tree-line">
-        <span className="cond">否则</span>：
+        否则：
       </div>
       <div className="tree-indent">
         <RenderTree tree={tree.falseBranch} cont="" />

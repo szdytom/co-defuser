@@ -12,14 +12,16 @@ interface GameSessionProps {
 }
 
 function parseConfigFromSearch(): GameConfig {
-  const params = new URLSearchParams(window.location.search);
+  const hash = window.location.hash;
+  const qIndex = hash.indexOf('?');
+  const params = new URLSearchParams(qIndex >= 0 ? hash.slice(qIndex) : '');
   const n = (key: string) => {
     const v = params.get(key);
     return v !== null ? Number(v) : null;
   };
   return {
-    timerSeconds: n('t') || DEFAULT_CONFIG.timerSeconds,
-    maxMistakes: n('m') || DEFAULT_CONFIG.maxMistakes,
+    timerSeconds: n('t') ?? DEFAULT_CONFIG.timerSeconds,
+    maxMistakes: n('m') ?? DEFAULT_CONFIG.maxMistakes,
     wireModuleCount: n('w') ?? DEFAULT_CONFIG.wireModuleCount,
     keyboardSVGCount: n('ks') ?? DEFAULT_CONFIG.keyboardSVGCount,
     keyboardDotCount: n('kd') ?? DEFAULT_CONFIG.keyboardDotCount,

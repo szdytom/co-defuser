@@ -1,0 +1,149 @@
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  height: 100dvh;
+  padding: 24px;
+  gap: 32px;
+}
+
+.start-screen h1 {
+  font-size: 2.4rem;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.seed-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.seed-input-group label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.seed-input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.seed-input-row input {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.seed-input-row input::placeholder {
+  color: var(--text-muted);
+}
+
+.seed-input-row input:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.seed-input-row button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--bg-surface-alt);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  border: 2px solid var(--border-color);
+}
+
+.seed-input-row button:hover {
+  background: var(--bg-surface-alt-hover);
+}
+
+.role-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.role-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 32px;
+  border-radius: 12px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  border: 2px solid var(--border-color);
+  min-width: 140px;
+  transition: border-color 0.2s;
+}
+
+.role-btn:hover {
+  border-color: var(--color-accent);
+}
+
+.role-btn .icon {
+  font-size: 2rem;
+}
+
+.role-btn .label {
+  font-weight: 600;
+}
+
+.role-btn .desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.config-toggle {
+  padding: 8px 16px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border: 1px solid var(--border-color);
+  margin-top: 8px;
+}
+
+.config-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-surface);
+  max-width: 360px;
+  width: 100%;
+}
+
+.config-panel label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.config-panel input[type="range"] {
+  width: 120px;
+}
+
+.config-panel .config-value {
+  color: var(--color-accent);
+  font-weight: 600;
+  min-width: 28px;
+  text-align: right;
+}

@@ -4,10 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Co-Defuser</title>
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('co-defuser-theme');
+        if (theme === 'dark' || theme === 'light') {
+          document.documentElement.setAttribute('data-theme', theme);
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch(e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body, #root { height: 100%; }
-    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #1a1a2e; color: #e0e0e0; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
     button { font-family: inherit; cursor: pointer; }
   </style>
   <link rel="stylesheet" href="dist/main.css" />

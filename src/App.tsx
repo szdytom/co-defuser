@@ -1,6 +1,7 @@
 import React from 'react';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ThemeProvider } from './theme';
 import { StartScreen } from './views/StartScreen';
 import { GameSession } from './views/GameSession';
 
@@ -22,7 +23,9 @@ function GameSessionWrapper({ role }: { role: 'operator' | 'expert' }) {
 }
 
 export const App: React.FC = () => (
-  <ErrorBoundary>
-    <RouterProvider router={router} />
-  </ErrorBoundary>
+  <ThemeProvider>
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  </ThemeProvider>
 );

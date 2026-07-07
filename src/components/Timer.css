@@ -1,0 +1,19 @@
+.operator-view .header .timer {
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+}
+
+.operator-view .header .timer.urgent {
+  animation: pulse 0.5s ease-in-out infinite alternate;
+}
+
+.timer.warning {
+  color: var(--color-urgent) !important;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.4; }
+}

@@ -1,0 +1,135 @@
+.keyboard-operator-module {
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-surface);
+}
+
+.keyboard-operator-module h3 {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.target-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.target-btn {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  border: 2px solid var(--border-color-light);
+  background: var(--bg-surface-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  padding: 6px;
+}
+
+@media (max-width: 480px) {
+  .target-btn {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 360px) {
+  .target-btn {
+    width: 52px;
+    height: 52px;
+    padding: 4px;
+  }
+}
+
+.target-btn:hover:not(.pressed):not(.wrong-flash) {
+  border-color: var(--color-accent);
+  background: var(--bg-surface-alt);
+}
+
+.target-btn.pressed {
+  opacity: 0.4;
+  border-color: var(--border-color-light);
+  cursor: default;
+}
+
+.target-btn.wrong-flash {
+  animation: shake 0.3s ease-in-out;
+  border-color: var(--color-accent);
+  background: var(--bg-danger);
+}
+
+.target-btn .order-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-success);
+  color: var(--text-on-success);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyboard-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.keyboard-grid-table td {
+  border: 1px solid var(--border-surface);
+  padding: 4px;
+  text-align: center;
+}
+
+.keyboard-grid-table .col-header {
+  background: var(--bg-surface-hover);
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  padding: 4px;
+}
+
+.keyboard-grid-cell {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .keyboard-grid-cell {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.order-indicator {
+  font-size: 0.8rem;
+  color: var(--color-success);
+  margin-top: 8px;
+  text-align: center;
+  min-height: 20px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.shake-module {
+  animation: shake 0.35s ease-in-out;
+  border-color: var(--color-accent) !important;
+  box-shadow: var(--shadow-accent);
+}

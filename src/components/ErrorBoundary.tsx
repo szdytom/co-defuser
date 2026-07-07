@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './ErrorBoundary.css';
 
 export class ErrorBoundary extends Component<{ children: React.ReactNode }, { error: Error | null }> {
   state = { error: null as Error | null };
@@ -10,10 +11,10 @@ export class ErrorBoundary extends Component<{ children: React.ReactNode }, { er
   render() {
     if (this.state.error) {
       return (
-        <div style={{ color: '#ff4757', padding: 40, fontFamily: 'monospace', fontSize: 14, whiteSpace: 'pre-wrap' }}>
-          <h2 style={{ color: '#e94560' }}>Render Error</h2>
+        <div className="error-boundary">
+          <h2>Render Error</h2>
           <p>{this.state.error.message}</p>
-          <pre style={{ marginTop: 16, color: '#888' }}>{this.state.error.stack}</pre>
+          <pre>{this.state.error.stack}</pre>
         </div>
       );
     }

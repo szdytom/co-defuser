@@ -1,6 +1,7 @@
 import React from 'react';
 import type { KeyboardDotRule, KeyboardDotPuzzle } from './types';
 import { RenderDotPattern } from './dot-utils';
+import '../../styles/keyboard-module.css';
 
 export const KbDotOperator: React.FC<{
   puzzle: KeyboardDotPuzzle;
@@ -30,9 +31,9 @@ export const KbDotOperator: React.FC<{
               className={`target-btn ${pressed ? 'pressed' : ''}`}
               onClick={() => handlePress(i)}
               disabled={pressed || disabled}
-              style={{ position: 'relative' }}
+              style={{ position: 'relative', color: 'var(--color-accent)' }}
             >
-              <RenderDotPattern pattern={pat} size={48} color="#e94560" />
+              <RenderDotPattern pattern={pat} size={48} color="currentColor" />
               {orderIdx >= 0 && (
                 <span className="order-badge">{orderIdx + 1}</span>
               )}
@@ -76,7 +77,7 @@ export const KbDotExpert: React.FC<{ rule: KeyboardDotRule }> = ({ rule }) => {
                 {Array.from({ length: cols }, (_, c) => (
                   <td key={c}>
                     <span className="keyboard-grid-cell">
-                      <RenderDotPattern pattern={rule.grid[r][c]} size={40} color="#e0e0e0" />
+                      <RenderDotPattern pattern={rule.grid[r][c]} size={40} color="currentColor" />
                     </span>
                   </td>
                 ))}
