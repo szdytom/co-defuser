@@ -1,3 +1,4 @@
+import React from 'react';
 import type { IModuleType } from '../types';
 import type { WireRule, WirePuzzle } from './types';
 import { generateWireRule, generateWirePuzzle, evaluateTree } from './generator';
@@ -5,7 +6,7 @@ import { WireOperator, WireExpert } from './WireModule';
 
 export const wireModule: IModuleType<WireRule, WirePuzzle> = {
   id: 'wire',
-  name: '剪线',
+  displayName: '剪线',
 
   generateRule(rng) {
     return generateWireRule(rng);
@@ -26,11 +27,11 @@ export const wireModule: IModuleType<WireRule, WirePuzzle> = {
     return { correct, solved: correct };
   },
 
-  operatorComponent({ puzzle, onAction, pressedActions, disabled, lastActionWrong }) {
-    return WireOperator({ puzzle, onAction, pressedActions, disabled, lastActionWrong });
+  operatorComponent(props) {
+    return React.createElement(WireOperator, props);
   },
 
-  expertComponent({ rule }) {
-    return WireExpert({ rule });
+  expertComponent(props) {
+    return React.createElement(WireExpert, props);
   },
 };

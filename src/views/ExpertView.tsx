@@ -47,7 +47,7 @@ export const ExpertView: React.FC<ExpertViewProps> = ({ manualData, onBack }) =>
           {entries.map((entry) => (
             <li key={entry.moduleType.id}>
               <button className="toc-link" onClick={() => scrollTo(`manual-${entry.moduleType.id}`)}>
-                {entry.moduleType.name}
+                {entry.moduleType.displayName}
               </button>
             </li>
           ))}

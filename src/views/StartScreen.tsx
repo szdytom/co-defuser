@@ -4,6 +4,7 @@ import type { GameRole } from '../game/types';
 import type { GameConfig } from '../game/config';
 import { DEFAULT_CONFIG, TIME_OPTIONS, ALL_MODULE_IDS } from '../game/config';
 import { ThemeToggle } from '../components/ThemeToggle';
+import { getModule } from '../modules/registry';
 import './StartScreen.css';
 
 const CONFIG_KEY = 'co-defuser-config';
@@ -29,17 +30,6 @@ function loadConfig(): GameConfig {
 function saveConfig(config: GameConfig): void {
   localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
 }
-
-const MODULE_NAMES: Record<string, string> = {
-  wire: '剪线',
-  'keyboard-svg': '键盘(符号)',
-  'keyboard-dot': '键盘(点阵)',
-  memory: '记忆',
-  timer: '计时',
-  'matching-svg': '配对(符号)',
-  'matching-dot': '配对(点阵)',
-  signal: '信号',
-};
 
 function generateRandomSeed(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -189,19 +179,22 @@ export const StartScreen: React.FC = () => {
           <div className="config-field config-modules">
             <span className="config-label">模块类型</span>
             <div className="module-checkboxes">
-              {ALL_MODULE_IDS.map(id => (
-                <label key={id} className="module-check-label">
-                  <input
-                    type="checkbox"
-                    checked={config.enabledModules.includes(id)}
-                    onChange={() => setConfig(prev => ({
-                      ...prev,
-                      enabledModules: toggleModule(prev.enabledModules, id),
-                    }))}
-                  />
-                  {MODULE_NAMES[id]}
-                </label>
-              ))}
+              {ALL_MODULE_IDS.map(id => {
+                const mod = getModule(id);
+                return (
+                  <label key={id} className="module-check-label">
+                    <input
+                      type="checkbox"
+                      checked={config.enabledModules.includes(id)}
+                      onChange={() => setConfig(prev => ({
+                        ...prev,
+                        enabledModules: toggleModule(prev.enabledModules, id),
+                      }))}
+                    />
+                    {mod?.displayName ?? id}
+                  </label>
+                );
+              })}
             </div>
           </div>
         </div>

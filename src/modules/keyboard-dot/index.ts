@@ -1,3 +1,4 @@
+import React from 'react';
 import type { IModuleType } from '../types';
 import type { KeyboardDotRule, KeyboardDotPuzzle } from './types';
 import { generateDotGrid, generateDotPuzzle } from './dot-utils';
@@ -5,7 +6,7 @@ import { KbDotOperator, KbDotExpert } from './KeyboardDotModule';
 
 export const keyboardDotModule: IModuleType<KeyboardDotRule, KeyboardDotPuzzle> = {
   id: 'keyboard-dot',
-  name: '键盘(点阵)',
+  displayName: '键盘(点阵)',
 
   generateRule(rng) {
     return { grid: generateDotGrid(rng) };
@@ -29,11 +30,11 @@ export const keyboardDotModule: IModuleType<KeyboardDotRule, KeyboardDotPuzzle> 
     return { correct, solved };
   },
 
-  operatorComponent({ puzzle, onAction, pressedActions, disabled, lastActionWrong }) {
-    return KbDotOperator({ puzzle, onAction, pressedActions, disabled, lastActionWrong });
+  operatorComponent(props) {
+    return React.createElement(KbDotOperator, props);
   },
 
-  expertComponent({ rule }) {
-    return KbDotExpert({ rule });
+  expertComponent(props) {
+    return React.createElement(KbDotExpert, props);
   },
 };

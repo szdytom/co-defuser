@@ -6,7 +6,7 @@ import { SignalOperator, SignalExpert } from './SignalModule';
 
 export const signalModule: IModuleType<SignalRule, SignalPuzzle> = {
   id: 'signal',
-  name: '信号',
+  displayName: '信号',
 
   generateRule(rng) {
     return generateRule(rng);

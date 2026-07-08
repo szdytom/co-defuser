@@ -6,7 +6,7 @@ import { TimerOperator, TimerExpert } from './TimerModule';
 
 export const timerModule: IModuleType<TimerRule, TimerPuzzle> = {
   id: 'timer',
-  name: '计时',
+  displayName: '计时',
 
   generateRule(rng) {
     return generateTimerRule(rng);
@@ -29,6 +29,6 @@ export const timerModule: IModuleType<TimerRule, TimerPuzzle> = {
   },
 
   expertComponent() {
-    return TimerExpert({ rule: {} });
+    return React.createElement(TimerExpert as React.FC<{ rule: TimerRule }>, { rule: {} as TimerRule });
   },
 };

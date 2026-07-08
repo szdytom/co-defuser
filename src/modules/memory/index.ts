@@ -1,3 +1,4 @@
+import React from 'react';
 import type { IModuleType } from '../types';
 import type { MemoryRule, MemoryPuzzle, MemoryAction, StageRuleAction } from './types';
 import { generateMemoryRule, generateMemoryPuzzle } from './generator';
@@ -30,7 +31,7 @@ function resolveAction(
 
 export const memoryModule: IModuleType<MemoryRule, MemoryPuzzle> = {
   id: 'memory',
-  name: '记忆',
+  displayName: '记忆',
 
   generateRule(rng) {
     return generateMemoryRule(rng);
@@ -62,11 +63,11 @@ export const memoryModule: IModuleType<MemoryRule, MemoryPuzzle> = {
     return { correct, solved };
   },
 
-  operatorComponent({ puzzle, onAction, pressedActions, disabled, lastActionWrong }) {
-    return MemoryOperator({ puzzle, onAction, pressedActions, disabled, lastActionWrong });
+  operatorComponent(props) {
+    return React.createElement(MemoryOperator, props);
   },
 
-  expertComponent({ rule }) {
-    return MemoryExpert({ rule });
+  expertComponent(props) {
+    return React.createElement(MemoryExpert, props);
   },
 };

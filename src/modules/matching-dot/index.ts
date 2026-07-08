@@ -6,7 +6,7 @@ import { MatchingDotOperator, MatchingDotExpert } from './MatchingModule';
 
 export const matchingDotModule: IModuleType<MatchingDotRule, MatchingDotPuzzle> = {
   id: 'matching-dot',
-  name: '配对(点阵)',
+  displayName: '配对(点阵)',
 
   generateRule(rng) {
     return generateMatchingDotRule(rng);

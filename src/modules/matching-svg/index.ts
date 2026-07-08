@@ -6,7 +6,7 @@ import { MatchingSVGOperator, MatchingSVGExpert } from './MatchingModule';
 
 export const matchingSVGModule: IModuleType<MatchingSVGRule, MatchingSVGPuzzle> = {
   id: 'matching-svg',
-  name: '配对(符号)',
+  displayName: '配对(符号)',
 
   generateRule(rng) {
     return generateMatchingSVGRule(rng);

@@ -106,7 +106,7 @@ export const OperatorView: React.FC<OperatorViewProps> = ({
                   )}
                 </span>
                 <span className="module-title">
-                  模块 #{inst.index} — {inst.moduleType.name}
+                  模块 #{inst.index} — {inst.moduleType.displayName}
                 </span>
                 {inst.solved && (
                   <span className="collapse-arrow">{isCollapsed ? '▶' : '▼'}</span>

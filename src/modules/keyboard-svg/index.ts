@@ -1,3 +1,4 @@
+import React from 'react';
 import type { IModuleType } from '../types';
 import type { KeyboardSVGRule, KeyboardSVGPuzzle } from './types';
 import { generateGrid, generatePuzzle } from './svg-utils';
@@ -5,7 +6,7 @@ import { KbSvgOperator, KbSvgExpert } from './KeyboardSVGModule';
 
 export const keyboardSVGModule: IModuleType<KeyboardSVGRule, KeyboardSVGPuzzle> = {
   id: 'keyboard-svg',
-  name: '键盘(符号)',
+  displayName: '键盘(符号)',
 
   generateRule(rng) {
     return { grid: generateGrid(rng) };
@@ -29,11 +30,11 @@ export const keyboardSVGModule: IModuleType<KeyboardSVGRule, KeyboardSVGPuzzle> 
     return { correct, solved };
   },
 
-  operatorComponent({ puzzle, onAction, pressedActions, disabled, lastActionWrong }) {
-    return KbSvgOperator({ puzzle, onAction, pressedActions, disabled, lastActionWrong });
+  operatorComponent(props) {
+    return React.createElement(KbSvgOperator, props);
   },
 
-  expertComponent({ rule }) {
-    return KbSvgExpert({ rule });
+  expertComponent(props) {
+    return React.createElement(KbSvgExpert, props);
   },
 };
