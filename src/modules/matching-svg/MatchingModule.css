@@ -40,15 +40,15 @@
 
 .matching-btn {
   aspect-ratio: 1;
-  border-radius: 8px;
-  border: 2px solid var(--border-color-light);
+  border-radius: 6px;
+  border: 1.5px solid var(--border-color-light);
   background: var(--bg-surface-hover);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.12s;
-  padding: 4px;
+  padding: 2px;
 }
 
 .matching-btn:hover:not(:disabled) {

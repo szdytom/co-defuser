@@ -1,8 +1,22 @@
 import React from 'react';
 import type { IModuleType } from '../types';
-import type { MatchingSVGRule, MatchingSVGPuzzle, MatchingAction } from './types';
+import type { MatchingSVGRule, MatchingSVGPuzzle } from './types';
 import { generateMatchingSVGRule, generateMatchingSVGPuzzle } from './generator';
-import { MatchingSVGOperator, MatchingSVGExpert } from './MatchingModule';
+import { validateMatchingAction } from '../matching-common/generator';
+import { createMatchingOperator, createMatchingExpert } from '../matching-common/MatchingModule';
+import { RenderSymbol } from '../keyboard-svg/svg-utils';
+import type { SVGSymbol } from '../keyboard-svg/types';
+
+const renderSymbol = (sym: SVGSymbol, size: number) =>
+  React.createElement(RenderSymbol, { symbol: sym, size });
+
+const MatchingOperator = createMatchingOperator(renderSymbol);
+const MatchingExpert = createMatchingExpert(
+  renderSymbol,
+  '配对模块 (符号)',
+  '操作员面前有 12 个带有符号的按钮，需要两两配对。以下为全部 24 对符号参照表。每行展示 3 对。',
+  (rule: MatchingSVGRule) => Array.from({ length: 24 }, (_, i) => ({ a: rule.symbols[i * 2], b: rule.symbols[i * 2 + 1] })),
+);
 
 export const matchingSVGModule: IModuleType<MatchingSVGRule, MatchingSVGPuzzle> = {
   id: 'matching-svg',
@@ -17,24 +31,14 @@ export const matchingSVGModule: IModuleType<MatchingSVGRule, MatchingSVGPuzzle> 
   },
 
   validate(rule, puzzle, actions) {
-    if (actions.length === 0) return { correct: false, solved: false };
-    const last = actions[actions.length - 1] as MatchingAction;
-    if (last.kind !== 'pair') return { correct: false, solved: false };
-
-    const idxA = puzzle.buttonRuleIndices[last.a];
-    const idxB = puzzle.buttonRuleIndices[last.b];
-    const pairA = Math.floor(idxA / 2);
-    const pairB = Math.floor(idxB / 2);
-    const correct = pairA === pairB;
-    const solved = correct && actions.length === 6;
-    return { correct, solved };
+    return validateMatchingAction(actions, puzzle.buttonRuleIndices);
   },
 
-  operatorComponent({ puzzle, onAction, pressedActions, disabled, lastActionWrong }) {
-    return React.createElement(MatchingSVGOperator, { puzzle, onAction, pressedActions, disabled, lastActionWrong });
+  operatorComponent(props) {
+    return React.createElement(MatchingOperator, props);
   },
 
-  expertComponent({ rule }) {
-    return React.createElement(MatchingSVGExpert, { rule });
+  expertComponent(props) {
+    return React.createElement(MatchingExpert, props);
   },
 };

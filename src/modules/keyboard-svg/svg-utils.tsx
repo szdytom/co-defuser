@@ -20,20 +20,47 @@ function symbolKey(s: SVGSymbol): string {
 }
 
 export function generateGrid(rng: { next(): number }): SVGSymbol[][] {
-  const grid: SVGSymbol[][] = [];
-  const seen = new Set<string>();
+  // 8 columns × 6 rows
+  // Symbols can repeat across columns, but within a column each symbol is unique.
+  // For any two columns, |intersection| < 4 (at most 3 symbols in common).
+  const pool: SVGSymbol[] = [];
+  for (let i = 0; i < 48; i++) {
+    pool.push(randomSymbol(rng));
+  }
 
+  const columns: SVGSymbol[][] = [];
+  for (let col = 0; col < 8; col++) {
+    columns.push(pool.slice(col * 6, col * 6 + 6));
+  }
+
+  for (let attempt = 0; attempt < 2000; attempt++) {
+    let ok = true;
+    for (let i = 0; i < 8 && ok; i++) {
+      for (let j = i + 1; j < 8 && ok; j++) {
+        const shared = columns[i].filter(a =>
+          columns[j].some(b => symbolKey(a) === symbolKey(b)),
+        );
+        if (shared.length >= 4) {
+          ok = false;
+          const idx = columns[j].findIndex(s => symbolKey(s) === symbolKey(shared[0]));
+          let sym = randomSymbol(rng);
+          let guard = 0;
+          while (columns[j].some(s => symbolKey(s) === symbolKey(sym)) && guard < 50) {
+            sym = randomSymbol(rng);
+            guard++;
+          }
+          columns[j][idx] = sym;
+        }
+      }
+    }
+    if (ok) break;
+  }
+
+  const grid: SVGSymbol[][] = [];
   for (let row = 0; row < 6; row++) {
     const rowData: SVGSymbol[] = [];
     for (let col = 0; col < 8; col++) {
-      let sym: SVGSymbol;
-      let attempts = 0;
-      do {
-        sym = randomSymbol(rng);
-        attempts++;
-      } while (seen.has(symbolKey(sym)) && attempts < 500);
-      seen.add(symbolKey(sym));
-      rowData.push(sym);
+      rowData.push(columns[col][row]);
     }
     grid.push(rowData);
   }
@@ -56,6 +83,7 @@ function hsl(hue: number, s: number, l: number): string {
 }
 
 export function RenderSymbol({ symbol, size = 48 }: { symbol: SVGSymbol; size?: number }) {
+  const uid = React.useId();
   const c = size / 2;
   const r = size * 0.38;
   const strokeW = size * 0.04;
@@ -64,7 +92,7 @@ export function RenderSymbol({ symbol, size = 48 }: { symbol: SVGSymbol; size?: 
   const lightColor = hsl(symbol.hue, 50, 75);
   const darkColor = hsl(symbol.hue, 80, 25);
 
-  const fillId = `f-${symbolKey(symbol).replace(/[^a-zA-Z0-9]/g, '')}`;
+  const fillId = `f-${uid}-${symbolKey(symbol).replace(/[^a-zA-Z0-9]/g, '')}`;
 
   const shapePath = (() => {
     switch (symbol.shape) {
@@ -207,39 +235,15 @@ export function generatePuzzle(rule: { grid: SVGSymbol[][] }): {
   correctOrder: number[];
   columnIndex: number;
 } {
-  for (let attempt = 0; attempt < 50; attempt++) {
-    const col = Math.floor(Math.random() * 8);
-    const rows = [0, 1, 2, 3, 4, 5];
-    for (let i = rows.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [rows[i], rows[j]] = [rows[j], rows[i]];
-    }
-    const pickedRows = rows.slice(0, 4);
-    const targetSymbols = pickedRows.map(r => rule.grid[r][col]);
-    const targetKeys = new Set(targetSymbols.map(symbolKey));
-
-    let uniqueColumn = true;
-    for (let c = 0; c < 8; c++) {
-      if (c === col) continue;
-      let matchCount = 0;
-      for (let r = 0; r < 6; r++) {
-        if (targetKeys.has(symbolKey(rule.grid[r][c]))) matchCount++;
-      }
-      if (matchCount >= 4) {
-        uniqueColumn = false;
-        break;
-      }
-    }
-
-    if (!uniqueColumn) continue;
-
-    const sortedRows = [...pickedRows].sort((a, b) => a - b);
-    const correctOrder = sortedRows.map(r => pickedRows.indexOf(r));
-    return { targetSymbols, correctOrder, columnIndex: col };
+  const col = Math.floor(Math.random() * 8);
+  const rows = [0, 1, 2, 3, 4, 5];
+  for (let i = rows.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rows[i], rows[j]] = [rows[j], rows[i]];
   }
-
-  const col = 0;
-  const targetSymbols = [rule.grid[0][0], rule.grid[1][0], rule.grid[2][0], rule.grid[3][0]];
-  const correctOrder = [0, 1, 2, 3];
+  const pickedRows = rows.slice(0, 4);
+  const targetSymbols = pickedRows.map(r => rule.grid[r][col]);
+  const sortedRows = [...pickedRows].sort((a, b) => a - b);
+  const correctOrder = sortedRows.map(r => pickedRows.indexOf(r));
   return { targetSymbols, correctOrder, columnIndex: col };
 }
