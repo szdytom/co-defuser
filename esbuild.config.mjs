@@ -1,5 +1,5 @@
 import esbuild from 'esbuild';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 
 const isServe = process.argv.includes('serve');
 const isBuild = process.argv.includes('build');
@@ -38,6 +38,8 @@ if (isServe) {
     minify: true,
     sourcemap: false,
   });
+  const html = readFileSync('index.html', 'utf-8').replaceAll('dist/', '');
+  writeFileSync('dist/index.html', html);
   console.log('Build complete.');
 } else {
   console.log('Usage: node esbuild.config.mjs [serve|build]');

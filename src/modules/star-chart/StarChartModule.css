@@ -1,0 +1,58 @@
+.star-module {
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.star-svg {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  aspect-ratio: 5 / 3;
+  border: 1px solid var(--border-color-light);
+  border-radius: 6px;
+  background: var(--bg-surface);
+  display: block;
+}
+
+.star-svg-full {
+  background: var(--bg-surface);
+}
+
+.star-svg-center {
+  display: flex;
+  justify-content: center;
+}
+
+.star-color-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.star-color-btn {
+  width: 52px;
+  height: 44px;
+  border: 2px solid var(--border-color-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.star-color-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+  border-color: var(--color-accent);
+}
+
+.star-color-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}

@@ -8,6 +8,7 @@ import { matchingSVGModule } from './matching-svg';
 import { matchingDotModule } from './matching-dot';
 import { signalModule } from './signal';
 import { calcModule } from './calc';
+import { starChartModule } from './star-chart';
 
 export const MODULE_REGISTRY: Record<string, IModuleType<any, any>> = {
   wire: wireModule,
@@ -19,6 +20,7 @@ export const MODULE_REGISTRY: Record<string, IModuleType<any, any>> = {
   'matching-dot': matchingDotModule,
   signal: signalModule,
   calc: calcModule,
+  'star-chart': starChartModule,
 };
 
 export function getModule(id: string): IModuleType<any, any> | undefined {
