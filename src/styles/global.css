@@ -1,39 +1,4 @@
 :root {
-  --bg-body: #1a1a2e;
-  --bg-surface: #16213e;
-  --bg-surface-alt: #0f3460;
-  --bg-surface-alt-hover: #1a4a8a;
-  --bg-surface-hover: #1a1a3e;
-  --bg-solved: #1a2a1a;
-  --bg-danger: #3a1a1a;
-  --bg-overlay: rgba(0, 0, 0, 0.8);
-  --bg-hover-subtle: rgba(255, 255, 255, 0.05);
-  --bg-btn-hover: #222;
-  --bg-input: #16213e;
-
-  --text-primary: #e0e0e0;
-  --text-secondary: #aaa;
-  --text-muted: #888;
-  --text-inverse: #fff;
-  --text-on-accent: #fff;
-  --text-on-success: #000;
-
-  --color-accent: #e94560;
-  --color-success: #2ed573;
-  --color-warning: #ffa502;
-  --color-info: #3742fa;
-  --color-error: #ff4757;
-  --color-urgent: #ffa502;
-
-  --border-color: #333;
-  --border-color-light: #444;
-  --border-surface: #2a2a4a;
-  --border-solved: #1a3a1a;
-
-  --shadow-accent: 0 0 12px rgba(233, 69, 96, 0.4);
-}
-
-[data-theme="light"] {
   --bg-body: #f0f2f5;
   --bg-surface: #ffffff;
   --bg-surface-alt: #e2e6ea;
@@ -68,6 +33,43 @@
   --shadow-accent: 0 0 12px rgba(214, 48, 49, 0.4);
 }
 
+@media screen {
+  [data-theme="dark"] {
+    --bg-body: #1a1a2e;
+    --bg-surface: #16213e;
+    --bg-surface-alt: #0f3460;
+    --bg-surface-alt-hover: #1a4a8a;
+    --bg-surface-hover: #1a1a3e;
+    --bg-solved: #1a2a1a;
+    --bg-danger: #3a1a1a;
+    --bg-overlay: rgba(0, 0, 0, 0.8);
+    --bg-hover-subtle: rgba(255, 255, 255, 0.05);
+    --bg-btn-hover: #222;
+    --bg-input: #16213e;
+
+    --text-primary: #e0e0e0;
+    --text-secondary: #aaa;
+    --text-muted: #888;
+    --text-inverse: #fff;
+    --text-on-accent: #fff;
+    --text-on-success: #000;
+
+    --color-accent: #e94560;
+    --color-success: #2ed573;
+    --color-warning: #ffa502;
+    --color-info: #3742fa;
+    --color-error: #ff4757;
+    --color-urgent: #ffa502;
+
+    --border-color: #333;
+    --border-color-light: #444;
+    --border-surface: #2a2a4a;
+    --border-solved: #1a3a1a;
+
+    --shadow-accent: 0 0 12px rgba(233, 69, 96, 0.4);
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -76,7 +78,6 @@
 
 html, body, #root {
   height: 100%;
-  overflow: hidden;
 }
 
 .content-wrapper {

@@ -13,20 +13,13 @@ export const ExpertView: React.FC<ExpertViewProps> = ({ manualData, onBack }) =>
   const [showTop, setShowTop] = useState(false);
 
   useEffect(() => {
-    const el = document.querySelector('.expert-view');
-    const onScroll = () => setShowTop((el?.scrollTop ?? 0) > 200);
-    el?.addEventListener('scroll', onScroll);
-    return () => el?.removeEventListener('scroll', onScroll);
+    const onScroll = () => setShowTop(window.scrollY > 200);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const scrollTo = (id: string) => {
-    const container = document.querySelector('.expert-view');
-    const el = document.getElementById(id);
-    if (container && el) {
-      const containerRect = container.getBoundingClientRect();
-      const elRect = el.getBoundingClientRect();
-      container.scrollTop += elRect.top - containerRect.top;
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -43,15 +36,14 @@ export const ExpertView: React.FC<ExpertViewProps> = ({ manualData, onBack }) =>
 
       <div className="manual-section toc-section">
         <h3>目录</h3>
-        <ul className="toc-list">
-          {entries.map((entry) => (
-            <li key={entry.moduleType.id}>
-              <button className="toc-link" onClick={() => scrollTo(`manual-${entry.moduleType.id}`)}>
-                {entry.moduleType.displayName}
-              </button>
-            </li>
+        <div className="toc-grid">
+          {entries.map((entry, i) => (
+            <button key={entry.moduleType.id} className="toc-link" onClick={() => scrollTo(`manual-${entry.moduleType.id}`)}>
+              <span className="toc-num">{i + 1}</span>
+              <span className="toc-name">{entry.moduleType.displayName}</span>
+            </button>
           ))}
-        </ul>
+        </div>
       </div>
 
       {entries.map((entry) => (
