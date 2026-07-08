@@ -19,30 +19,22 @@ function allocateModules(
   rng: { next(): number },
 ): { id: string; count: number }[] {
   const hasTimer = enabled.includes('timer');
-  const others = enabled.filter(id => id !== 'timer');
-  const timerCount = hasTimer ? 1 : 0;
-  const otherCount = total - timerCount;
 
-  if (otherCount <= 0) {
-    return hasTimer ? [{ id: 'timer', count: 1 }] : [];
-  }
-
-  if (otherCount < others.length) {
-    const picked = shuffle(others, rng).slice(0, otherCount);
-    const result = picked.map(id => ({ id, count: 1 }));
-    if (hasTimer) result.push({ id: 'timer', count: 1 });
-    return result;
+  if (total < enabled.length) {
+    return shuffle([...enabled], rng).slice(0, total).map(id => ({ id, count: 1 }));
   }
 
   const counts: Record<string, number> = {};
-  for (const id of others) counts[id] = 1;
-  for (let i = 0; i < otherCount - others.length; i++) {
-    const pick = others[Math.floor(rng.next() * others.length)];
+  for (const id of enabled) counts[id] = 1;
+
+  const extras = total - enabled.length;
+  const pool = hasTimer ? enabled.filter(id => id !== 'timer') : enabled;
+  for (let i = 0; i < extras; i++) {
+    const pick = pool[Math.floor(rng.next() * pool.length)];
     counts[pick]++;
   }
-  const result = Object.entries(counts).map(([id, count]) => ({ id, count }));
-  if (hasTimer) result.push({ id: 'timer', count: 1 });
-  return result;
+
+  return Object.entries(counts).map(([id, count]) => ({ id, count }));
 }
 
 export function generateGame(seed: string, config: GameConfig = DEFAULT_CONFIG): GameState {
