@@ -1,4 +1,4 @@
-export const ALL_MODULE_IDS = ['wire', 'keyboard-svg', 'keyboard-dot', 'memory', 'timer', 'matching-svg', 'matching-dot', 'signal'];
+export const ALL_MODULE_IDS = ['wire', 'keyboard-svg', 'keyboard-dot', 'memory', 'timer', 'matching-svg', 'matching-dot', 'signal', 'calc'];
 
 export const TIME_OPTIONS = [
   { label: '2分', seconds: 120 },

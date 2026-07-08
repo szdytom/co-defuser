@@ -72,8 +72,7 @@ export const TimerExpert: React.FC<{ rule: TimerRule }> = () => {
     <div className="manual-section">
       <h3>计时模块</h3>
       <p className="manual-rule-text">
-        在此模块中，操作员会看到一个倒计时显示（格式 M:SS）和一个"解除"按钮。
-        操作员需要根据以下规则决定何时按下按钮：
+        你面前有一个倒计时（格式 M:SS）和一个"解除"按钮。根据以下规则决定何时按下：
       </p>
       <ul className="manual-rule-text" style={{ marginTop: 8, paddingLeft: 20 }}>
         <li>当 <strong>其他所有模块都已解除</strong>，且当前剩余时间 <strong>大于等于</strong> 显示的时间时，可以立即按下按钮。</li>

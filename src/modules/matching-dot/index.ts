@@ -14,7 +14,7 @@ const MatchingOperator = createMatchingOperator(renderPattern);
 const MatchingExpert = createMatchingExpert(
   renderPattern,
   '配对模块 (点阵)',
-  '操作员面前有 12 个带有点阵图案的按钮，需要两两配对。以下为全部 24 对点阵参照表。每行展示 3 对。',
+  '你面前有 12 个带有点阵图案的按钮，需要两两配对成 6 对。以下为全部 12 组配对参照表，每行展示 3 组。先选一个按钮，再选另一个，按下确认键配对。配对错误会清空当前选择。',
   (rule: MatchingDotRule) => Array.from({ length: 24 }, (_, i) => ({ a: rule.patterns[i * 2], b: rule.patterns[i * 2 + 1] })),
 );
 

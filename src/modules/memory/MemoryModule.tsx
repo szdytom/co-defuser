@@ -77,8 +77,8 @@ export const MemoryExpert: React.FC<{ rule: MemoryRule }> = ({ rule }) => {
     <div className="manual-section">
       <h3>记忆模块</h3>
       <p className="manual-rule-text">
-        在此模块中，操作员会看到一个数字显示屏（1-4）和四个带有数字标签的按钮。
-        根据当前阶段和显示的数字，按照以下规则按下正确的按钮。
+        你面前有一个数字显示屏（1-4）和四个带有数字标签的按钮（位置从左到右编号 1-4）。
+        共 5 个阶段，每阶段显示一个数字，根据显示的数字按下对应位置的按钮。
         按错会重置到阶段 1。
       </p>
       <div className="manual-memory-rules">

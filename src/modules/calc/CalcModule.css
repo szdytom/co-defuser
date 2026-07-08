@@ -1,0 +1,129 @@
+.calc-module {
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.calc-keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.calc-keypad-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.calc-key {
+  width: 64px;
+  height: 48px;
+  border: 1px solid var(--border-color-light);
+  border-radius: 8px;
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.calc-key:hover:not(:disabled) {
+  background: var(--bg-surface-alt);
+  border-color: var(--color-accent);
+}
+
+.calc-key:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.calc-key:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.calc-key-flash {
+  background: #ffcc00;
+  color: #000;
+  border-color: #ffaa00;
+  box-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
+  animation: calc-flash-pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes calc-flash-pulse {
+  from { box-shadow: 0 0 8px rgba(255, 204, 0, 0.4); }
+  to { box-shadow: 0 0 24px rgba(255, 204, 0, 0.9); }
+}
+
+.calc-key-control {
+  font-size: 1.1rem;
+  background: var(--bg-surface);
+  border-color: var(--border-surface);
+}
+
+.calc-key-confirm {
+  background: var(--color-success);
+  color: var(--text-on-success);
+  border-color: var(--color-success);
+  font-size: 1.2rem;
+}
+
+.calc-key-confirm-ready {
+  animation: calc-pulse-confirm 1.2s ease-in-out infinite;
+}
+
+@keyframes calc-pulse-confirm {
+  0%, 100% { box-shadow: 0 0 0 rgba(76, 175, 80, 0); }
+  50% { box-shadow: 0 0 12px rgba(76, 175, 80, 0.6); }
+}
+
+.calc-key-confirm:hover:not(:disabled) {
+  background: #66bb6a;
+  border-color: #66bb6a;
+}
+
+.calc-key-confirm:disabled {
+  background: var(--bg-surface-hover);
+  color: var(--text-muted);
+  border-color: var(--border-color-light);
+}
+
+.calc-expert-state {
+  margin-top: 12px;
+}
+
+.calc-expert-state h4 {
+  font-size: 0.95rem;
+  color: var(--color-success);
+  margin-bottom: 6px;
+}
+
+.calc-expert-state .decision-tree {
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.calc-expert-state .tree-line {
+  margin-bottom: 1px;
+}
+
+.calc-expert-state .cond {
+  color: var(--color-warning);
+}
+
+.calc-expert-state .action {
+  color: var(--color-success);
+  font-weight: 700;
+}

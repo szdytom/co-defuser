@@ -55,10 +55,10 @@ export const KbSvgExpert: React.FC<{ rule: KeyboardSVGRule }> = ({ rule }) => {
   return (
     <div className="manual-section">
       <h3>键盘模块 (符号)</h3>
-      <p className="manual-rule-text">
-        以下为6行8列的符号表格。操作员能看到4个符号按钮。
-        有且仅有一列同时包含全部4个符号。
-        以该列中这4个符号从上到下的顺序来按下这4个按钮。
+       <p className="manual-rule-text">
+        你面前有 4 个带有符号的按钮。以下为 6 行 8 列的完整符号表格。
+        有且仅有一列同时包含你面前的全部 4 个符号。
+        找到该列后，按这 4 个符号在该列中从上到下的顺序依次按下按钮。
       </p>
       <div style={{ overflowX: 'auto' }}>
         <table className="keyboard-grid-table">

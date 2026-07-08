@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { SignalPuzzle, SignalRule } from './types';
+import { InputDisplay } from '../../components/InputDisplay';
 import './SignalModule.css';
 
 const DOT_MS = 300;
@@ -259,16 +260,7 @@ export const SignalOperator: React.FC<{
         <canvas ref={canvasRef} className="signal-scope" />
       </div>
 
-      <div className="signal-input-display">
-        {Array.from({ length: 6 }, (_, i) => (
-          <span
-            key={i}
-            className={`signal-input-slot ${i < input.length ? 'signal-input-slot-filled' : ''} ${i === step && step < 6 ? 'signal-input-slot-active' : ''}`}
-          >
-            {i < input.length ? input[i] : ''}
-          </span>
-        ))}
-      </div>
+      <InputDisplay slotCount={6} values={input} activeIndex={step} />
 
       <div className="signal-keyboard">
         {[0, 1, 2].map(ri => (
@@ -372,10 +364,10 @@ export const SignalExpert: React.FC<{ rule: SignalRule }> = ({ rule }) => {
     <div className="manual-section">
       <h3>信号模块</h3>
       <p className="manual-rule-text">
-        操作员面前有绿、红、蓝三种不同颜色的指示灯（每次只有一种）。
-        点(·)为短闪，横(-)为长闪。请根据指示灯颜色找到对应的编码表，
-        告知操作员每个闪烁序列对应的符号。
-        操作员输入全部符号后按确认键解除。
+        你面前有一盏指示灯，颜色为绿、红、蓝之一（每次固定一种）。
+        指示灯会反复闪烁一段编码：点(·)为短闪，横(-)为长闪。
+        根据指示灯颜色找到下方对应的编码表，解读出每个闪烁序列对应的符号，
+        在键盘上依次输入这些符号后按确认键解除。
       </p>
       {rule.codeSets.map((cs, i) => (
         <CodeTable key={cs.color} allSymbols={rule.allSymbols} codeSet={cs} label={`第${i + 1}套`} />

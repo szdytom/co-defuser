@@ -14,7 +14,7 @@ const MatchingOperator = createMatchingOperator(renderSymbol);
 const MatchingExpert = createMatchingExpert(
   renderSymbol,
   '配对模块 (符号)',
-  '操作员面前有 12 个带有符号的按钮，需要两两配对。以下为全部 24 对符号参照表。每行展示 3 对。',
+  '你面前有 12 个带有符号的按钮，需要两两配对成 6 对。以下为全部 12 组配对参照表，每行展示 3 组。先选一个按钮，再选另一个，按下确认键配对。配对错误会清空当前选择。',
   (rule: MatchingSVGRule) => Array.from({ length: 24 }, (_, i) => ({ a: rule.symbols[i * 2], b: rule.symbols[i * 2 + 1] })),
 );
 

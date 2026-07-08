@@ -56,9 +56,9 @@ export const KbDotExpert: React.FC<{ rule: KeyboardDotRule }> = ({ rule }) => {
     <div className="manual-section">
       <h3>键盘模块 (点阵)</h3>
       <p className="manual-rule-text">
-        以下为6行8列的点阵表格。操作员能看到4个点阵按钮。
-        有且仅有一列同时包含全部4个点阵图案。
-        以该列中这4个图案从上到下的顺序来按下这4个按钮。
+        你面前有 4 个带有点阵图案的按钮。以下为 6 行 8 列的完整点阵表格。
+        有且仅有一列同时包含你面前的全部 4 个点阵图案。
+        找到该列后，按这 4 个图案在该列中从上到下的顺序依次按下按钮。
       </p>
       <div style={{ overflowX: 'auto' }}>
         <table className="keyboard-grid-table">
