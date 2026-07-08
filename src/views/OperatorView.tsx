@@ -113,7 +113,7 @@ export const OperatorView: React.FC<OperatorViewProps> = ({
                 )}
               </div>
               {!isCollapsed && (
-                <div className="module-body" key={`mod-${idx}-${gameState.lastWrongIdx === idx ? `wrong-${gameState.wrongCount}` : 'ok'}`}>
+                <div className="module-body" key={`mod-${idx}`}>
                   {inst.moduleType.operatorComponent({
                     puzzle: inst.puzzle,
                     onAction: (action: unknown) => onAction(idx, action),

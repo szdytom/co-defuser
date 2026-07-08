@@ -38,6 +38,7 @@ const MODULE_NAMES: Record<string, string> = {
   timer: '计时',
   'matching-svg': '配对(符号)',
   'matching-dot': '配对(点阵)',
+  signal: '信号',
 };
 
 function generateRandomSeed(): string {

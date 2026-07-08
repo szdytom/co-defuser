@@ -6,6 +6,7 @@ import { memoryModule } from './memory';
 import { timerModule } from './timer';
 import { matchingSVGModule } from './matching-svg';
 import { matchingDotModule } from './matching-dot';
+import { signalModule } from './signal';
 
 export const MODULE_REGISTRY: Record<string, IModuleType<any, any>> = {
   wire: wireModule,
@@ -15,6 +16,7 @@ export const MODULE_REGISTRY: Record<string, IModuleType<any, any>> = {
   timer: timerModule,
   'matching-svg': matchingSVGModule,
   'matching-dot': matchingDotModule,
+  signal: signalModule,
 };
 
 export function getModule(id: string): IModuleType<any, any> | undefined {

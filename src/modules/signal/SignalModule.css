@@ -1,0 +1,202 @@
+.signal-module {
+  background: var(--bg-surface);
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid var(--border-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.signal-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.signal-light-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signal-light {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  border: 2px solid #444;
+  transition: background 0.05s, box-shadow 0.05s;
+}
+
+.signal-light-on {
+  background: #ff3333;
+  box-shadow: 0 0 20px rgba(255, 51, 51, 0.8), 0 0 40px rgba(255, 51, 51, 0.4);
+  border-color: #ff6666;
+}
+
+.signal-scope {
+  flex: 1;
+  height: 48px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color-light);
+  display: block;
+}
+
+.signal-input-display {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.signal-input-slot {
+  width: 36px;
+  height: 44px;
+  border: 2px solid var(--border-color-light);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+  transition: border-color 0.15s;
+}
+
+.signal-input-slot-filled {
+  border-color: var(--color-accent);
+  background: var(--bg-surface-alt);
+}
+
+.signal-input-slot-active {
+  border-color: var(--color-warning);
+  animation: signal-blink-border 1s ease-in-out infinite;
+}
+
+@keyframes signal-blink-border {
+  0%, 100% { border-color: var(--color-warning); }
+  50% { border-color: transparent; }
+}
+
+.signal-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.signal-keyboard-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.signal-key {
+  width: 52px;
+  height: 44px;
+  border: 1px solid var(--border-color-light);
+  border-radius: 6px;
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.signal-key:hover:not(:disabled) {
+  background: var(--bg-surface-alt);
+  border-color: var(--color-accent);
+}
+
+.signal-key:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.signal-key:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.signal-key-control {
+  font-size: 1.1rem;
+  background: var(--bg-surface);
+  border-color: var(--border-surface);
+}
+
+.signal-key-confirm {
+  background: var(--color-success);
+  color: var(--text-on-success);
+  border-color: var(--color-success);
+  font-size: 1.2rem;
+}
+
+.signal-key-confirm-ready {
+  animation: signal-pulse-confirm 1.2s ease-in-out infinite;
+}
+
+@keyframes signal-pulse-confirm {
+  0%, 100% { box-shadow: 0 0 0 rgba(76, 175, 80, 0); }
+  50% { box-shadow: 0 0 12px rgba(76, 175, 80, 0.6); }
+}
+
+.signal-key-confirm:hover:not(:disabled) {
+  background: #66bb6a;
+  border-color: #66bb6a;
+}
+
+.signal-key-confirm:disabled {
+  background: var(--bg-surface-hover);
+  color: var(--text-muted);
+  border-color: var(--border-color-light);
+}
+
+.signal-code-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+.signal-code-table th {
+  background: var(--bg-surface-hover);
+  color: var(--text-muted);
+  padding: 4px 8px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.signal-code-table td {
+  border: 1px solid var(--border-surface);
+  padding: 4px 8px;
+  text-align: center;
+}
+
+.signal-code-symbol {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.signal-code-pattern {
+  font-family: 'Courier New', monospace;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+}
+
+:root {
+  --signal-green: #00cc66;
+  --signal-red: #ff4444;
+  --signal-blue: #3388ff;
+}

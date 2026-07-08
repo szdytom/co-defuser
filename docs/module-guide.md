@@ -44,6 +44,9 @@ interface IModuleType<TRule, TPuzzle> {
   };
 
   // A 侧 React 组件
+  // ⚠️ 必须通过 React.createElement(Component, props) 或 JSX 渲染，
+  // 不能直接函数调用 Component(props)。直接调用会使 hooks 注册到父组件的
+  // hooks 链上，导致卸载和生命周期异常。
   operatorComponent: (props: {
     puzzle: TPuzzle;
     onAction: (action: OperatorAction) => void;  // 玩家点击时调用
@@ -190,6 +193,7 @@ export const PasswordExpert: React.FC<{ rule: PasswordRule }> = ({ rule }) => (
 ### 步骤 5：组装模块对象 (`index.ts`)
 
 ```typescript
+import React from 'react';
 import type { IModuleType } from '../types';
 import type { PasswordRule, PasswordPuzzle, PasswordAction } from './types';
 import { generateRule, generatePuzzle, validatePuzzle } from './generator';
@@ -212,12 +216,13 @@ export const passwordModule: IModuleType<PasswordRule, PasswordPuzzle> = {
     return validatePuzzle(rule, puzzle, actions as PasswordAction[]);
   },
 
-  operatorComponent({ puzzle, onAction, pressedActions, disabled, lastActionWrong }) {
-    return PasswordOperator({ puzzle, onAction, pressedActions, disabled, lastActionWrong });
+  operatorComponent(props) {
+    // ⚠️ 必须用 createElement 或 JSX 渲染，不能直接函数调用
+    return React.createElement(PasswordOperator, props);
   },
 
-  expertComponent({ rule }) {
-    return PasswordExpert({ rule });
+  expertComponent(props) {
+    return React.createElement(PasswordExpert, props);
   },
 };
 ```
@@ -330,3 +335,4 @@ validate(rule, puzzle, actions) {
 | 组件不维护校验状态 | 正确/错误由父组件通过 props 告知 |
 | B 侧不包含交互元素 | 纯展示，文本可选中复制 |
 | 类型参数化 | `IModuleType<TRule, TPuzzle>` 保证类型安全 |
+| operatorComponent 必须用 createElement/JSX 渲染 | 不准直接函数调用 `Component(props)`，hooks 会注册到父组件导致异常 |
