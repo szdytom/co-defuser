@@ -5,7 +5,7 @@
   height: 100dvh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 16px;
+  padding: 16px 16px 50vh;
   gap: 16px;
 }
 
