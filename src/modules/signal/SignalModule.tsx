@@ -324,11 +324,12 @@ const COLOR_NAMES: Record<string, string> = {
   blue: '蓝',
 };
 
-function CodeTable({ codeSet, label }: { codeSet: { codeMap: Record<string, string>; color: string }; label: string }) {
-  const items = Object.entries(codeSet.codeMap);
+function CodeTable({ allSymbols, codeSet, label }: { allSymbols: string[]; codeSet: { codeMap: Record<string, string>; color: string }; label: string }) {
+  const items = allSymbols.map(s => ({ symbol: s, code: codeSet.codeMap[s].replaceAll('.', '·') }));
+  const colSize = items.length / 3;
   const rows: { symbol: string; code: string }[][] = [];
-  for (let i = 0; i < items.length; i += 3) {
-    rows.push(items.slice(i, i + 3).map(([symbol, code]) => ({ symbol, code: code.replaceAll('.', '·') })));
+  for (let r = 0; r < colSize; r++) {
+    rows.push([items[r], items[r + colSize], items[r + colSize * 2]]);
   }
 
   return (
@@ -377,7 +378,7 @@ export const SignalExpert: React.FC<{ rule: SignalRule }> = ({ rule }) => {
         操作员输入全部符号后按确认键解除。
       </p>
       {rule.codeSets.map((cs, i) => (
-        <CodeTable key={cs.color} codeSet={cs} label={`第${i + 1}套`} />
+        <CodeTable key={cs.color} allSymbols={rule.allSymbols} codeSet={cs} label={`第${i + 1}套`} />
       ))}
     </div>
   );
